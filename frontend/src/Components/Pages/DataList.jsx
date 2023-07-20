@@ -8,7 +8,6 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Box,
   SkeletonText,
@@ -21,7 +20,7 @@ export const DataList = () => {
   const GetData = () => {
     setLoading(true);
     axios
-      .get("https://clever-teal-raincoat.cyclic.app/user/get")
+      .get(`https://clever-teal-raincoat.cyclic.app/user/get`)
       .then((res) => {
         setLoading(false);
         setData(res.data);
@@ -40,7 +39,6 @@ export const DataList = () => {
       <Navbar />
       <TableContainer>
         <Table>
-          <TableCaption>Table To Show Registered User Details</TableCaption>
           <Thead>
             <Tr>
               <Th>First Name</Th>
@@ -56,7 +54,7 @@ export const DataList = () => {
           </Thead>
           <Tbody>
             {data.map((item) => (
-              <Tr key={item._id} bg={"RGB(255 86 71)"} fontWeight={'500'}>
+              <Tr key={item._id} bg={"RGB(255 86 71)"} fontWeight={"500"}>
                 <Td>{item.fname}</Td>
                 <Td>{item.lname}</Td>
                 <Td>{item.mail}</Td>

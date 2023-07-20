@@ -10,7 +10,6 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link,
   Radio,
   RadioGroup,
   useToast,
@@ -91,19 +90,6 @@ export default function Signup() {
     }
   };
 
-  const handleReset = () => {
-    setLname("");
-    setFname("");
-    setMail("");
-    setGender("");
-    setAge("");
-    setCity("");
-    setCountry("");
-    setState("");
-    setDob("");
-    setLoad(false);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -124,20 +110,21 @@ export default function Signup() {
         duration: 5000,
         isClosable: true,
       });
-      // return;
     } else {
       const payload = {
         fname,
         lname,
         mail,
         country,
-        city,
         state,
+        city,
         gender,
         dob,
         age,
       };
+
       setLoad(!load);
+
       axios
         .post(`https://clever-teal-raincoat.cyclic.app/user/add`, payload)
         .then((res) => {
@@ -148,7 +135,16 @@ export default function Signup() {
             duration: 5000,
             isClosable: true,
           });
-          handleReset();
+          setLname("");
+          setFname("");
+          setMail("");
+          setGender("");
+          setAge("");
+          setCity("");
+          setCountry("");
+          setState("");
+          setDob("");
+          setLoad(false);
         })
         .catch((error) =>
           toast({
@@ -320,7 +316,7 @@ export default function Signup() {
               </HStack>
               <HStack justifyContent={"space-between"}>
                 <Box>
-                  <FormControl id="firstName" isRequired>
+                  <FormControl id="dob" isRequired>
                     <FormLabel>Date of Birth</FormLabel>
                     <Input
                       focusBorderColor="#ff3b2b"
@@ -332,7 +328,7 @@ export default function Signup() {
                   </FormControl>
                 </Box>
                 <Box>
-                  <FormControl id="lastName">
+                  <FormControl id="age">
                     <FormLabel>Age</FormLabel>
                     <Input type="text" name="age" value={age} isDisabled />
                   </FormControl>
@@ -355,14 +351,7 @@ export default function Signup() {
                   Register
                 </Button>
               </Stack>
-              <Stack>
-                <Text align={"center"}>
-                  Registered already ?{" "}
-                  <Link color={"RGB(255 59 43)"} fontWeight={"600"}>
-                    Check User List
-                  </Link>
-                </Text>
-              </Stack>
+              <Stack></Stack>
             </Stack>
           </Box>
         </Stack>
