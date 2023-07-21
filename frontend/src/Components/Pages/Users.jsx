@@ -14,22 +14,26 @@ import {
 } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 
-export const DataList = () => {
+export const Users = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const GetData = () => {
     setLoading(true);
+
     axios
-      .get(`https://clever-teal-raincoat.cyclic.app/user/get`)
+      .get(`https://calm-erin-oyster-sock.cyclic.app/user/get`)
       .then((res) => {
         setLoading(false);
         setData(res.data);
       })
       .catch((res) => alert("Issue Faced"));
   };
+
   useEffect(() => {
     GetData();
   }, []);
+
   return loading ? (
     <Box padding="6" boxShadow="lg" bg="white">
       <SkeletonText mt="4" noOfLines={20} spacing="10" skeletonHeight="10" />

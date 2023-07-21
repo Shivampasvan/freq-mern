@@ -126,15 +126,16 @@ export default function Signup() {
       setLoad(!load);
 
       axios
-        .post(`https://clever-teal-raincoat.cyclic.app/user/add`, payload)
+        .post(`https://calm-erin-oyster-sock.cyclic.app/user/add`, payload)
         .then((res) => {
           toast({
             title: "Successful !!",
-            description: "User's data registered successfully.",
+            description: "User registered successfully.",
             status: "success",
             duration: 5000,
             isClosable: true,
           });
+
           setLname("");
           setFname("");
           setMail("");
@@ -146,7 +147,7 @@ export default function Signup() {
           setDob("");
           setLoad(false);
         })
-        .catch((error) =>
+        .catch((error) => {
           toast({
             title: "Error !!",
             description:
@@ -154,8 +155,9 @@ export default function Signup() {
             status: "error",
             duration: 5000,
             isClosable: true,
-          })
-        );
+          });
+          console.log(error.message);
+        });
     }
   };
   return (
