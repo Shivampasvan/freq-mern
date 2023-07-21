@@ -13,13 +13,17 @@ import {
   Radio,
   RadioGroup,
   useToast,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
+import validator from "validator";
 
 export default function Signup() {
   const toast = useToast();
+  const [errorc, setErrorc] = useState(false);
+  const [emailerror, setEmailerror] = useState(false);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [mail, setMail] = useState("");
@@ -40,15 +44,16 @@ export default function Signup() {
   };
 
   const cities = {
-    UttarPradesh: ["Meerut", "Ghaziabad", "Noida", "Lucknow"],
-    Jharkhand: ["Dhanbad", "Nirsa", "Ranchi"],
-    "West Bengal": ["Kolkata", "Asansol", "Howrah"],
+    UttarPradesh: ["Meerut", "Ghaziabad", "Noida", "Lucknow", "Hapur"],
+    Delhi: ["Dwarika", "Nirman Vihar", "Barah Khamba", "Rohini"],
     Chugoku: ["Kurashiki", "Fukuyama", "Shimonoseki"],
     Kanto: ["Tokyo", "Yokohama", "Maebashi"],
+    Jharkhand: ["Dhanbad", "Nirsa", "Ranchi"],
     Hokkaido: ["Sapporo", "Hakodate", "Asahikawa"],
-    "Amur Region": ["Zeya", "Belogorsk", "Tynda"],
-    "Arkhangelsk Region": ["Arkhangelsk", "Murmansk", "Severodvinsk"],
-    "Altai Territory": ["Astrakhan", "Vologda", "Veliky Novgorod"],
+    AmurRegion: ["Zeya", "Belogorsk", "Tynda"],
+    WestBengal: ["Kolkata", "Asansol", "Howrah"],
+    ArkhangelskRegion: ["Arkhangelsk", "Murmansk", "Severodvinsk"],
+    AltaiTerritory: ["Astrakhan", "Vologda", "Veliky Novgorod"],
   };
 
   const handleCountry = (e) => {
@@ -90,6 +95,31 @@ export default function Signup() {
     }
   };
 
+  const handlefname = (e) => {
+    const regex = /^[A-Za-z]*$/;
+    const value = e.target.value;
+    if (regex.test(value)) {
+      setFname(value);
+    }
+  };
+
+  const handlelname = (e) => {
+    const regex = /^[A-Za-z]*$/; // Regular expression to match alphabetic characters
+    const value = e.target.value;
+    if (regex.test(value)) {
+      setLname(value);
+    }
+  };
+
+  const handleemail = (e) => {
+    setMail(e.target.value);
+    if (validator.isEmail(mail)) {
+      setEmailerror(false);
+    } else {
+      setEmailerror(true);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -103,6 +133,7 @@ export default function Signup() {
       !gender ||
       !dob
     ) {
+      setErrorc(true);
       toast({
         title: "Error",
         description: "All credentials required to register !!",
@@ -150,13 +181,11 @@ export default function Signup() {
         .catch((error) => {
           toast({
             title: "Error !!",
-            description:
-              "User Data couldn't Successfully Saved in the Database due to Some Error.",
+            description: error,
             status: "error",
             duration: 5000,
             isClosable: true,
           });
-          console.log(error.message);
         });
     }
   };
@@ -192,49 +221,60 @@ export default function Signup() {
             <Stack spacing={6}>
               <HStack>
                 <Box>
-                  <FormControl id="firstName" isRequired>
+                  <FormControl id="firstName" isRequired isInvalid={errorc}>
                     <FormLabel>First Name</FormLabel>
                     <Input
                       focusBorderColor="#ff3b2b"
                       type="text"
                       name="fname"
                       value={fname}
-                      onChange={(e) => {
-                        setFname(e.target.value);
-                      }}
+                      onChange={handlefname}
                     />
+                    {errorc && fname === "" ? (
+                      <FormErrorMessage>Enter the Last Name.</FormErrorMessage>
+                    ) : null}
                   </FormControl>
                 </Box>
                 <Box>
-                  <FormControl id="lastName" isRequired>
+                  <FormControl id="lastName" isRequired isInvalid={errorc}>
                     <FormLabel>Last Name</FormLabel>
                     <Input
                       focusBorderColor="#ff3b2b"
                       type="text"
                       name="lname"
                       value={lname}
-                      onChange={(e) => {
-                        setLname(e.target.value);
-                      }}
+                      onChange={handlelname}
                     />
+                    {errorc && lname === "" ? (
+                      <FormErrorMessage>Enter the Last Name.</FormErrorMessage>
+                    ) : null}
                   </FormControl>
                 </Box>
               </HStack>
-              <FormControl id="email" isRequired>
+              <FormControl
+                id="email"
+                isRequired
+                isInvalid={{ emailerror, errorc }}
+              >
                 <FormLabel>Email address</FormLabel>
                 <Input
                   focusBorderColor="#ff3b2b"
                   type="email"
                   name="mail"
                   value={mail}
-                  onChange={(e) => {
-                    setMail(e.target.value);
-                  }}
+                  onChange={handleemail}
                 />
+                {emailerror ? (
+                  <FormErrorMessage>
+                    Enter the Valid Email Address.
+                  </FormErrorMessage>
+                ) : (mail === "" && errorc )? (
+                  <FormErrorMessage>Enter the Email Address.</FormErrorMessage>
+                ) : null}
               </FormControl>
               <HStack justifyContent={"space-between"}>
                 <Box>
-                  <FormControl id="country" isRequired>
+                  <FormControl id="country" isRequired isInvalid={errorc}>
                     <FormLabel>Country</FormLabel>
                     <select
                       name="country"
@@ -249,10 +289,13 @@ export default function Signup() {
                         </option>
                       ))}
                     </select>
+                    {errorc && country === "" ? (
+                      <FormErrorMessage>Select The Country.</FormErrorMessage>
+                    ) : null}
                   </FormControl>
                 </Box>
                 <Box>
-                  <FormControl id="state" isRequired>
+                  <FormControl id="state" isRequired isInvalid={errorc}>
                     <FormLabel>State</FormLabel>
                     <select
                       name="state"
@@ -268,10 +311,13 @@ export default function Signup() {
                           </option>
                         ))}
                     </select>
+                    {errorc && state === "" ? (
+                      <FormErrorMessage>Select The State.</FormErrorMessage>
+                    ) : null}
                   </FormControl>
                 </Box>
                 <Box>
-                  <FormControl id="city" isRequired>
+                  <FormControl id="city" isRequired isInvalid={errorc}>
                     <FormLabel>City</FormLabel>
                     <select
                       name="city"
@@ -287,6 +333,9 @@ export default function Signup() {
                           </option>
                         ))}
                     </select>
+                    {errorc && city === "" ? (
+                      <FormErrorMessage>Select The City.</FormErrorMessage>
+                    ) : null}
                   </FormControl>
                 </Box>
               </HStack>
@@ -298,6 +347,7 @@ export default function Signup() {
                       setGender(e.target.value);
                     }}
                     isRequired
+                    isInvalid={errorc}
                   >
                     <FormLabel>Gender</FormLabel>
                     <RadioGroup>
@@ -313,12 +363,15 @@ export default function Signup() {
                         </Radio>
                       </Stack>
                     </RadioGroup>
+                    {errorc && gender === "" ? (
+                      <FormErrorMessage>Select The Gender.</FormErrorMessage>
+                    ) : null}
                   </FormControl>
                 </Box>
               </HStack>
               <HStack justifyContent={"space-between"}>
                 <Box>
-                  <FormControl id="dob" isRequired>
+                  <FormControl id="dob" isRequired isInvalid={errorc}>
                     <FormLabel>Date of Birth</FormLabel>
                     <Input
                       focusBorderColor="#ff3b2b"
@@ -327,6 +380,11 @@ export default function Signup() {
                       value={dob}
                       onChange={handleDate}
                     />
+                    {errorc && dob === "" ? (
+                      <FormErrorMessage>
+                        Select The Date of Birth.
+                      </FormErrorMessage>
+                    ) : null}
                   </FormControl>
                 </Box>
                 <Box>
@@ -353,7 +411,6 @@ export default function Signup() {
                   Register
                 </Button>
               </Stack>
-              <Stack></Stack>
             </Stack>
           </Box>
         </Stack>
