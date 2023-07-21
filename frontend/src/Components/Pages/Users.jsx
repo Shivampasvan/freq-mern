@@ -44,7 +44,7 @@ export const Users = () => {
       <TableContainer>
         <Table>
           <Thead>
-            <Tr>
+            <Tr fontWeight={"500"} fontSize={"80px"}>
               <Th>First Name</Th>
               <Th>Last Name</Th>
               <Th>Email</Th>

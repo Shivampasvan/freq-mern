@@ -229,6 +229,7 @@ export default function Signup() {
                       name="fname"
                       value={fname}
                       onChange={handlefname}
+                      placeholder="Enter first name"
                     />
                     {errorc && fname === "" ? (
                       <FormErrorMessage>Enter the Last Name.</FormErrorMessage>
@@ -244,6 +245,7 @@ export default function Signup() {
                       name="lname"
                       value={lname}
                       onChange={handlelname}
+                      placeholder="Enter last name"
                     />
                     {errorc && lname === "" ? (
                       <FormErrorMessage>Enter the Last Name.</FormErrorMessage>
@@ -254,7 +256,7 @@ export default function Signup() {
               <FormControl
                 id="email"
                 isRequired
-                isInvalid={{ emailerror, errorc }}
+                isInvalid={(emailerror, errorc)}
               >
                 <FormLabel>Email address</FormLabel>
                 <Input
@@ -263,12 +265,13 @@ export default function Signup() {
                   name="mail"
                   value={mail}
                   onChange={handleemail}
+                  placeholder="Enter email"
                 />
                 {emailerror ? (
                   <FormErrorMessage>
                     Enter the Valid Email Address.
                   </FormErrorMessage>
-                ) : (mail === "" && errorc )? (
+                ) : mail === "" && errorc ? (
                   <FormErrorMessage>Enter the Email Address.</FormErrorMessage>
                 ) : null}
               </FormControl>
