@@ -35,25 +35,30 @@ export default function Signup() {
   const [age, setAge] = useState("");
   const [load, setLoad] = useState(false);
 
-  const countries = ["India", "Japan", "Russia"];
+  const countries = ["India", "Russia", "Europe", "Japan"];
 
   const states = {
-    India: ["UttarPradesh", "Delhi", "Maharashtra", "Kerala", "Punjab"],
-    Japan: ["Chugoku", "Kanto", "Hokkaido"],
-    Russia: ["Amur Region", "Arkhangelsk Region", "Altai Territory"],
+    India: ["UttarPradesh", "Maharashtra", "Delhi", "Punjab"],
+    England: ["UnitedKingdom", "Borsto", "London", "GreaterLondon"],
+    Korea: ["Benjao", "Tenjaku", "Wasaoi"],
+    Spain: ["PortSpanio", "Velley", "CostaRica"],
   };
 
   const cities = {
     UttarPradesh: ["Meerut", "Ghaziabad", "Noida", "Lucknow", "Hapur"],
     Delhi: ["Dwarika", "Nirman Vihar", "Barah Khamba", "Rohini"],
-    Chugoku: ["Kurashiki", "Fukuyama", "Shimonoseki"],
-    Kanto: ["Tokyo", "Yokohama", "Maebashi"],
-    Jharkhand: ["Dhanbad", "Nirsa", "Ranchi"],
-    Hokkaido: ["Sapporo", "Hakodate", "Asahikawa"],
-    AmurRegion: ["Zeya", "Belogorsk", "Tynda"],
-    WestBengal: ["Kolkata", "Asansol", "Howrah"],
-    ArkhangelskRegion: ["Arkhangelsk", "Murmansk", "Severodvinsk"],
-    AltaiTerritory: ["Astrakhan", "Vologda", "Veliky Novgorod"],
+    Maharashtra: ["Mumbai", "Navi Mumbai", "Pune", "Thane"],
+    Punjab: ["Chandigarh", "Mohali", "Durga Puri", "Bhatinda"],
+    UnitedKingdom: ["Menchaster City", "Brunick", "Peiso"],
+    Borsto: ["Chelsei", "Manhaton", "Pallasio"],
+    London: ["borough", "Square Mile", "Lambeth"],
+    GreaterLondon: ["Lewisham", "Wandsworth ", "Westminster"],
+    Benjao: ["Kurashiki", "Fukuyama", "Shimonoseki"],
+    Tenjaku: ["Tokyo", "Yokohama", "Maebashi"],
+    Wasaoi: ["Sapporo", "Hakodate", "Asahikawa"],
+    Velley: ["Zeya", "Belogorsk", "Tynda"],
+    PortSpanio: ["Arkhangelsk", "Murmansk", "Severodvinsk"],
+    CostaRica: ["Astrakhan", "Vologda", "Veliky Novgorod"],
   };
 
   const handleCountry = (e) => {
