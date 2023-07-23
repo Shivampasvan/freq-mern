@@ -123,6 +123,7 @@ export default function Signup() {
     } else {
       setEmailerror(true);
     }
+    // console.log("email error", emailerror, "mail", mail);
   };
 
   const handleSubmit = (e) => {
@@ -143,55 +144,66 @@ export default function Signup() {
         title: "Error",
         description: "All credentials required to register !!",
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
     } else {
-      const payload = {
-        fname,
-        lname,
-        mail,
-        country,
-        state,
-        city,
-        gender,
-        dob,
-        age,
-      };
-
-      setLoad(!load);
-
-      axios
-        .post(`https://calm-erin-oyster-sock.cyclic.app/user/add`, payload)
-        .then((res) => {
-          toast({
-            title: "Successful !!",
-            description: "User registered successfully.",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-          });
-
-          setLname("");
-          setFname("");
-          setMail("");
-          setGender("");
-          setAge("");
-          setCity("");
-          setCountry("");
-          setState("");
-          setDob("");
-          setLoad(false);
-        })
-        .catch((error) => {
-          toast({
-            title: "Error !!",
-            description: error,
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-          });
+      if (emailerror) {
+        setErrorc(true);
+        toast({
+          title: "Invalid Email Address",
+          description: "Please enter valid email address to register !!",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
         });
+      } else {
+        const payload = {
+          fname,
+          lname,
+          mail,
+          country,
+          state,
+          city,
+          gender,
+          dob,
+          age,
+        };
+
+        setLoad(!load);
+
+        axios
+          .post(`https://calm-erin-oyster-sock.cyclic.app/user/add`, payload)
+          .then((res) => {
+            toast({
+              title: "Successful !!",
+              description: "User registered successfully.",
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
+            setLname("");
+            setFname("");
+            setMail("");
+            setGender("");
+            setAge("");
+            setCity("");
+            setCountry("");
+            setState("");
+            setDob("");
+            setLoad(false);
+            setErrorc(false);
+          })
+          .catch((error) => {
+            toast({
+              title: "Error !!",
+              description: error,
+              status: "error",
+              duration: 5000,
+              isClosable: true,
+            });
+          });
+      }
     }
   };
   return (
@@ -237,7 +249,7 @@ export default function Signup() {
                       placeholder="Enter first name"
                     />
                     {errorc && fname === "" ? (
-                      <FormErrorMessage>Enter the Last Name.</FormErrorMessage>
+                      <FormErrorMessage>Enter First Name</FormErrorMessage>
                     ) : null}
                   </FormControl>
                 </Box>
@@ -253,7 +265,7 @@ export default function Signup() {
                       placeholder="Enter last name"
                     />
                     {errorc && lname === "" ? (
-                      <FormErrorMessage>Enter the Last Name.</FormErrorMessage>
+                      <FormErrorMessage>Enter Last Name</FormErrorMessage>
                     ) : null}
                   </FormControl>
                 </Box>
@@ -274,10 +286,10 @@ export default function Signup() {
                 />
                 {emailerror ? (
                   <FormErrorMessage>
-                    Enter the Valid Email Address.
+                    Enter Valid Email Address.
                   </FormErrorMessage>
                 ) : mail === "" && errorc ? (
-                  <FormErrorMessage>Enter the Email Address.</FormErrorMessage>
+                  <FormErrorMessage>Enter Email Address</FormErrorMessage>
                 ) : null}
               </FormControl>
               <HStack justifyContent={"space-between"}>
@@ -289,6 +301,7 @@ export default function Signup() {
                       id="country"
                       onChange={handleCountry}
                       required
+                      value={country}
                     >
                       <option value="">Select Country</option>
                       {countries.map((item) => (
@@ -298,7 +311,7 @@ export default function Signup() {
                       ))}
                     </select>
                     {errorc && country === "" ? (
-                      <FormErrorMessage>Select The Country.</FormErrorMessage>
+                      <FormErrorMessage>Select Country</FormErrorMessage>
                     ) : null}
                   </FormControl>
                 </Box>
@@ -320,7 +333,7 @@ export default function Signup() {
                         ))}
                     </select>
                     {errorc && state === "" ? (
-                      <FormErrorMessage>Select The State.</FormErrorMessage>
+                      <FormErrorMessage>Select State</FormErrorMessage>
                     ) : null}
                   </FormControl>
                 </Box>
@@ -342,7 +355,7 @@ export default function Signup() {
                         ))}
                     </select>
                     {errorc && city === "" ? (
-                      <FormErrorMessage>Select The City.</FormErrorMessage>
+                      <FormErrorMessage>Select City</FormErrorMessage>
                     ) : null}
                   </FormControl>
                 </Box>
@@ -354,6 +367,7 @@ export default function Signup() {
                     onChange={(e) => {
                       setGender(e.target.value);
                     }}
+                    value={gender}
                     isRequired
                     isInvalid={errorc}
                   >
@@ -372,7 +386,7 @@ export default function Signup() {
                       </Stack>
                     </RadioGroup>
                     {errorc && gender === "" ? (
-                      <FormErrorMessage>Select The Gender.</FormErrorMessage>
+                      <FormErrorMessage>Select Gender</FormErrorMessage>
                     ) : null}
                   </FormControl>
                 </Box>
@@ -389,9 +403,7 @@ export default function Signup() {
                       onChange={handleDate}
                     />
                     {errorc && dob === "" ? (
-                      <FormErrorMessage>
-                        Select The Date of Birth.
-                      </FormErrorMessage>
+                      <FormErrorMessage>Select Date of Birth</FormErrorMessage>
                     ) : null}
                   </FormControl>
                 </Box>
