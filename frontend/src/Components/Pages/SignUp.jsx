@@ -35,7 +35,7 @@ export default function Signup() {
   const [age, setAge] = useState("");
   const [load, setLoad] = useState(false);
 
-  const countries = ["India", "Russia", "Europe", "Japan"];
+  const countries = ["India", "England", "Korea", "Spain"];
 
   const states = {
     India: ["UttarPradesh", "Maharashtra", "Delhi", "Punjab"],
@@ -46,8 +46,8 @@ export default function Signup() {
 
   const cities = {
     UttarPradesh: ["Meerut", "Ghaziabad", "Noida", "Lucknow", "Hapur"],
-    Delhi: ["Dwarika", "Nirman Vihar", "Barah Khamba", "Rohini"],
     Maharashtra: ["Mumbai", "Navi Mumbai", "Pune", "Thane"],
+    Delhi: ["Dwarika", "Nirman Vihar", "Barah Khamba", "Rohini"],
     Punjab: ["Chandigarh", "Mohali", "Durga Puri", "Bhatinda"],
     UnitedKingdom: ["Menchaster City", "Brunick", "Peiso"],
     Borsto: ["Chelsei", "Manhaton", "Pallasio"],
