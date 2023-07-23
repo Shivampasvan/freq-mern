@@ -197,11 +197,12 @@ export default function Signup() {
           .catch((error) => {
             toast({
               title: "Error !!",
-              description: error,
+              description: error.response.data,
               status: "error",
-              duration: 5000,
+              duration: 3000,
               isClosable: true,
             });
+            setLoad(false);
           });
       }
     }
