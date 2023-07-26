@@ -88,17 +88,19 @@ export default function Signup() {
     return age;
   };
 
-  const isValidDateOfBirth = (dateofbirth) => {
-    const selectedDate = new Date(dateofbirth);
-    const currentDate = new Date();
+  const isValid_DOB = (dateofbirth) => {
+    let today = new Date();
+    let birthDate = new Date(dateofbirth);
 
-    return selectedDate <= currentDate;
+    return birthDate <= today;
   };
 
   const handleDate = (e) => {
     setDob(e.target.value);
+
     let setDOB = e.target.value;
-    if (isValidDateOfBirth(setDOB)) {
+
+    if (isValid_DOB(setDOB)) {
       let value = calculateAge(e.target.value);
       if (value <= 14) {
         alert("Your age must be greater than 14 years");
