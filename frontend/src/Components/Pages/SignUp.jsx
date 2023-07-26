@@ -15,7 +15,7 @@ import {
   useToast,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import validator from "validator";
@@ -32,6 +32,7 @@ export default function Signup() {
   const [city, setCity] = useState("");
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
+  const [Today, setToday] = useState("");
   const [age, setAge] = useState("");
   const [load, setLoad] = useState(false);
 
@@ -74,6 +75,14 @@ export default function Signup() {
     setCity(e.target.value);
   };
 
+  const onLoadingPage = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    setToday(`${year}-${month}-${day}`);
+  };
+
   const calculateAge = (dateOfBirth) => {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
@@ -88,37 +97,16 @@ export default function Signup() {
     return age;
   };
 
-  const isValid_DOB = (dateofbirth) => {
-    let today = new Date();
-    let birthDate = new Date(dateofbirth);
-
-    return birthDate <= today;
-  };
-
   const handleDate = (e) => {
     setDob(e.target.value);
 
-    let setDOB = e.target.value;
-
-    if (isValid_DOB(setDOB)) {
-      let value = calculateAge(e.target.value);
-      if (value <= 14) {
-        alert("Your age must be greater than 14 years");
-        setDob("");
-        setAge("");
-      } else {
-        setAge(value);
-      }
-    } else {
-      setErrorc(true);
-      toast({
-        title: "Invalid Date of birth",
-        description: "Please enter valid date of birth to register !!",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+    let value = calculateAge(e.target.value);
+    if (value <= 14) {
+      alert("Your age must be greater than 14 years");
       setDob("");
+      setAge("");
+    } else {
+      setAge(value);
     }
   };
 
@@ -230,6 +218,9 @@ export default function Signup() {
       }
     }
   };
+  useEffect(() => {
+    onLoadingPage();
+  }, []);
   return (
     <>
       <Navbar />
@@ -419,6 +410,8 @@ export default function Signup() {
                       name="dob"
                       value={dob}
                       onChange={handleDate}
+                      min={"1922-12-31"}
+                      max={Today}
                     />
                     {errorc && dob === "" ? (
                       <FormErrorMessage>Select Date of Birth</FormErrorMessage>
