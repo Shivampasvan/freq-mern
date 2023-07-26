@@ -88,15 +88,34 @@ export default function Signup() {
     return age;
   };
 
+  const isValidDateOfBirth = (dateofbirth) => {
+    const selectedDate = new Date(dateofbirth);
+    const currentDate = new Date();
+
+    return selectedDate <= currentDate;
+  };
+
   const handleDate = (e) => {
     setDob(e.target.value);
-    let value = calculateAge(e.target.value);
-    if (value <= 14) {
-      alert("Your age must be greater than 14 years");
-      setDob("");
-      setAge("");
+    let setDOB = e.target.value;
+    if (isValidDateOfBirth(setDOB)) {
+      let value = calculateAge(e.target.value);
+      if (value <= 14) {
+        alert("Your age must be greater than 14 years");
+        setDob("");
+        setAge("");
+      } else {
+        setAge(value);
+      }
     } else {
-      setAge(value);
+      toast({
+        title: "Invalid Date of birth",
+        description: "Please enter valid date of birth to register !!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      setDob("");
     }
   };
 
@@ -117,8 +136,9 @@ export default function Signup() {
   };
 
   const handleemail = (e) => {
+    let inputValue = e.target.value;
     setMail(e.target.value);
-    if (validator.isEmail(mail)) {
+    if (validator.isEmail(inputValue)) {
       setEmailerror(false);
     } else {
       setEmailerror(true);
@@ -375,15 +395,9 @@ export default function Signup() {
                     <FormLabel>Gender</FormLabel>
                     <RadioGroup>
                       <Stack spacing={5} direction="row">
-                        <Radio colorScheme="red" value="Male">
-                          Male
-                        </Radio>
-                        <Radio colorScheme="red" value="Female">
-                          Female
-                        </Radio>
-                        <Radio colorScheme="red" value="Other">
-                          Other
-                        </Radio>
+                        <Radio value="Male">Male</Radio>
+                        <Radio value="Female">Female</Radio>
+                        <Radio value="Other">Other</Radio>
                       </Stack>
                     </RadioGroup>
                     {errorc && gender === "" ? (
