@@ -110,6 +110,7 @@ export default function Signup() {
         setAge(value);
       }
     } else {
+      setErrorc(true);
       toast({
         title: "Invalid Date of birth",
         description: "Please enter valid date of birth to register !!",
