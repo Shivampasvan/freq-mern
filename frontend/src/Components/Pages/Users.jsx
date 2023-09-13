@@ -22,7 +22,7 @@ export const Users = () => {
     setLoading(true);
 
     axios
-      .get(`https://calm-erin-oyster-sock.cyclic.app/user/get`)
+      .get(`https://puce-zealous-pigeon.cyclic.app/user/get`)
       .then((res) => {
         setLoading(false);
         setData(res.data);

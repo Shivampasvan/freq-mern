@@ -184,7 +184,7 @@ export default function Signup() {
         setLoad(!load);
 
         axios
-          .post(`https://calm-erin-oyster-sock.cyclic.app/user/add`, payload)
+          .post(`https://puce-zealous-pigeon.cyclic.app/user/add`, payload)
           .then((res) => {
             toast({
               title: "Successful !!",
